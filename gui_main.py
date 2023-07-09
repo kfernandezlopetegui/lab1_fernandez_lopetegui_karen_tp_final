@@ -51,15 +51,15 @@ while True:
     tiempo_actual = pygame.time.get_ticks()
     elapsed_time = (tiempo_actual - start_time) // 1000
     tiempo_restante_juego=cronometro-elapsed_time
-    texto_cronometro = Auxiliar.generar_texto(
-        "Arial", TAMANIO_TEXTO, "Tiempo:{0}".format(tiempo_restante_juego), C_BLACK)
+    
     aux_form_active = Form.get_active()
     if(aux_form_active != None and aux_form_active.active):
            
-        aux_form_active.update(lista_eventos,keys,delta_ms, tiempo_actual)
+        aux_form_active.update(lista_eventos,keys,delta_ms, tiempo_actual, tiempo_restante_juego)
         aux_form_active.draw()
-    screen.blit(texto_cronometro, (500, 100))
-    if tiempo_restante_juego== 0:
+        
+   
+    if tiempo_restante_juego== 0 or aux_form_active.end_game:
         pygame.quit()
         sys.exit()  
     pygame.display.flip()

@@ -31,7 +31,7 @@ class FormMenuA(Form):
     def on_click_boton3(self, parametro):
         self.set_active(parametro)
 
-    def update(self, lista_eventos,keys,delta_ms, tiempo_actual):
+    def update(self, lista_eventos,keys,delta_ms, tiempo_actual, tiempo_restante):
         for aux_widget in self.lista_widget:
             aux_widget.update(lista_eventos)
 

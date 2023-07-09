@@ -12,7 +12,11 @@ class Enemy():
                  nombre_imagen_die="images/caracters/enemies/ork_sword/DIE/DIE_00{0}.png",
                  cant_imag_die_inicio=0,cant_imag_die_fin=9,
                  nombre_imagen_hurt="images/caracters/enemies/ork_sword/HURT/HURT_00{0}.png",
-                 cant_imag_hurt_inicio=0,cant_imag_hurt_fin=6,p_scale=1,interval_time_jump=100) -> None:
+                 cant_imag_hurt_inicio=0,cant_imag_hurt_fin=6,
+                 nombre_imagen_attak="images/caracters/enemies/ork_sword/ATTAK/ATTAK_00{0}.png",
+                 cant_imag_attak_inicio=0,cant_imag_attak_fin=6,p_scale=0.9,interval_time_jump=100,
+                 is_shooter=False
+                 ) -> None:
         self.nombre= "enemy"
         self.walk_r = Auxiliar.getSurfaceFromSeparateFiles(nombre_imagen_walk,cant_imag_walk_inicio,cant_imag_walk_fin,scale=p_scale)
         self.walk_l = Auxiliar.getSurfaceFromSeparateFiles(nombre_imagen_walk,cant_imag_walk_inicio,cant_imag_walk_fin,flip=True,scale=p_scale)
@@ -22,7 +26,8 @@ class Enemy():
         self.death_l = Auxiliar.getSurfaceFromSeparateFiles(nombre_imagen_die,cant_imag_die_inicio,cant_imag_die_fin,flip=True,scale=p_scale)
         self.hurt_r= Auxiliar.getSurfaceFromSeparateFiles(nombre_imagen_hurt,cant_imag_hurt_inicio,cant_imag_hurt_fin,scale=p_scale)
         self.hurt_l= Auxiliar.getSurfaceFromSeparateFiles(nombre_imagen_hurt,cant_imag_hurt_inicio,cant_imag_hurt_fin,flip=True,scale=p_scale)
-        
+        self.attack_r=Auxiliar.getSurfaceFromSeparateFiles(nombre_imagen_attak,cant_imag_attak_inicio,cant_imag_attak_fin,scale=p_scale)
+        self.attack_l=Auxiliar.getSurfaceFromSeparateFiles(nombre_imagen_attak,cant_imag_attak_inicio,cant_imag_attak_fin,flip=True,scale=p_scale)
         self.contador = 0
         self.frame = 0
         self.lives = 5
@@ -62,12 +67,20 @@ class Enemy():
         self.interval_time_jump = interval_time_jump
         
         self.shoot_delay=1500
-        self.can_shoot = True
+        self.can_shoot = False
         self.last_shoot_time=None
         self.contador_daño=0
         self.damaged = False
         self.damaged_timer = 0
-   
+       
+        self.weapon_rect = pygame.Rect(0, 0, 20, 30)
+        self.attack_range = 80  # Distancia máxima de ataque del enemigo
+        self.is_attacking = False  # Estado de ataque del enemigo
+        self.last_attack_time = 0 
+        self.attack_delay = 700
+        self.attack_timer = 0
+        self.is_shooter = is_shooter  
+    
     def change_x(self,delta_x):
         self.rect.x += delta_x
         self.collition_rect.x += delta_x
@@ -77,6 +90,45 @@ class Enemy():
         self.rect.y += delta_y
         self.collition_rect.y += delta_y
         self.ground_collition_rect.y += delta_y
+    
+    def update_weapon_rect(self):
+        # Actualiza la posición del rectángulo del arma con respecto al enemigo
+        if DIRECTION_L == self.direction:
+            
+            self.weapon_rect.centerx = self.rect.centerx-45
+            # Posición x centrada
+        else: 
+             self.weapon_rect.centerx = self.rect.centerx+45
+                   
+        self.weapon_rect.top = self.rect.top + 40  # Posición y ligeramente por encima del enemigo
+        
+    def is_player_in_range(self, player):
+        # Verifica si el jugador está dentro del rango de ataque del enemigo
+        distance_x = abs(self.rect.centerx - player.rect.centerx)
+        distance_y = abs(self.rect.centery - player.rect.centery)
+        distance = (distance_x ** 2 + distance_y ** 2) ** 0.5  # Fórmula de la distancia euclidiana
+        return distance <= self.attack_range
+        
+    def attack(self, player, tiempo_actual):
+        # Verifica la colisión entre el rectángulo del arma y el jugador
+        
+            
+            if self.weapon_rect.colliderect(player.rect) and self.is_player_in_range(player) :
+                
+                if not self.is_attacking or tiempo_actual - self.last_attack_time >= self.attack_delay:
+                    self.is_attacking=True
+                  
+                    self.last_attack_time = tiempo_actual
+                    self.attack_timer = tiempo_actual
+                
+                    player.receive_damage(5)  # Aplica el daño al jugador
+                    
+                
+                      
+        
+                      
+              
+    
 
     def do_movement(self,delta_ms,plataform_list):
         self.tiempo_transcurrido_move += delta_ms
@@ -87,8 +139,11 @@ class Enemy():
                 if self.damaged:
                     self.do_hurt()
                 else:
+                    if self.is_attacking :
+                        self.do_attack()
                         
-                    if(not self.is_on_plataform(plataform_list)):
+                        
+                    elif(not self.is_on_plataform(plataform_list)):
                         if(self.move_y == 0):
                             self.is_fall = True
                             self.change_y(self.gravity)
@@ -130,8 +185,13 @@ class Enemy():
             self.animation = self.hurt_r
         else:
             self.animation = self.hurt_l
-                      
-              
+   
+    def do_attack(self):
+        if self.direction == DIRECTION_R:
+            self.animation = self.attack_r
+        else:
+            self.animation = self.attack_l
+                          
     def is_on_plataform(self,plataform_list):
         retorno = False
         
@@ -151,7 +211,7 @@ class Enemy():
             self.tiempo_transcurrido_animation = 0
             if(self.frame < len(self.animation) - 1):
                 self.frame += 1 
-                print(self.frame)
+                
                 self.image = self.animation[self.frame]
             else:
                 if self.lives<1:
@@ -159,9 +219,19 @@ class Enemy():
                      
                 self.frame = 0
 
-    def update(self,delta_ms,plataform_list):
-        if self.damaged and pygame.time.get_ticks() - self.damaged_timer > 400:  # 1000 ms = 1 segundo
+    def update(self,delta_ms,plataform_list, player, tiempo_actual):
+        if self.damaged and tiempo_actual - self.damaged_timer > 350:  
             self.damaged = False
+        if  self.is_attacking and tiempo_actual - self.attack_timer > 700 :
+            self.is_attacking= False
+            
+            
+        else:
+            self.attack(player, tiempo_actual)
+         
+                
+        self.update_weapon_rect()
+           
         self.do_movement(delta_ms,plataform_list)
         self.do_animation(delta_ms) 
         
@@ -171,6 +241,8 @@ class Enemy():
         if(DEBUG):
             pygame.draw.rect(screen,color=(255,0 ,0),rect=self.collition_rect)
             pygame.draw.rect(screen,color=(255,255,0),rect=self.ground_collition_rect)
+            pygame.draw.rect(screen,color=(255,255,0),rect=self.weapon_rect)
+            
         
         #self.image = self.animation[self.frame]
         screen.blit(self.image,self.rect)

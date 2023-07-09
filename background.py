@@ -16,11 +16,12 @@ class Background:
 
     def draw(self,screen, offset):
         y = self.rect.y 
-        if offset is not None:
-            x = -offset
+        x = self.rect.x
+        if offset is not None :
+            x = offset
             
-        else:
-            x = self.rect.x
+        
+           
             
         screen.blit(self.image, (x, y))
         #screen.blit(self.image,self.rect)

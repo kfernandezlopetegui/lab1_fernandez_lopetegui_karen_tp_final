@@ -25,6 +25,7 @@ class Form():
 
         if(self.color_background != None):
             self.surface.fill(self.color_background)
+        self.end_game= False    
             
     @staticmethod
     def set_active(name):
