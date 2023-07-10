@@ -14,7 +14,8 @@ from background import Background
 from bullet import Bullet
 from game import Game
 from nivel import Level
-
+from gui_form_settings import FormMenuSettings
+from gui_form_settings import FormMenuSettings
 
 class FormGameLevel1(Form):
     def __init__(self, name, master_surface, x, y, w, h, color_background, color_border, active):
@@ -25,7 +26,9 @@ class FormGameLevel1(Form):
         self.end_game = False
         self.contador= 0
         self.current_position = 0
-        #self.game.play_music("music/donkey-kong-country.mp3")
+        self.game.play_music("music/donkey-kong-country.mp3")
+        self.form_settings = FormMenuSettings(self.game,name="form_menu_settings",master_surface = master_surface,x=300,y=200,w=500,h=400,color_background=(53,57,69),color_border=(255,0,255),active=False)
+
  
 
        
@@ -82,20 +85,32 @@ class FormGameLevel1(Form):
             x=1050, y=260, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=False, type=26))
         self.plataform_list.append(Plataform(
             x=550, y=430, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=False, type=26))
-        self.copia_plataformas_list = []
-        self.copia_plataformas_list.append(Plataform(
-            x=550, y=430, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=False, type=26))
-        self.copia_plataformas_list.append(Plataform(
-            x=1050, y=260, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=False, type=26))
+        self.enemy_list_level2 = [
+            Enemy(x=450, y=400, speed_walk=6, speed_run=5, gravity=14, jump_power=30,
+                               frame_rate_ms=150, move_rate_ms=50, jump_height=140, p_scale=0.08, interval_time_jump=300),
+            Enemy(x=900, y=400, speed_walk=6, speed_run=5, gravity=14, jump_power=30,
+                               frame_rate_ms=150, move_rate_ms=50, jump_height=140, p_scale=0.08, interval_time_jump=300),
+            Enemy(x=1600, y=400, speed_walk=6, speed_run=5, gravity=14, jump_power=30,
+                               frame_rate_ms=150, move_rate_ms=50, jump_height=140, p_scale=0.08, interval_time_jump=300),
+            Enemy(x=200, y=400, speed_walk=6, speed_run=5, gravity=14, jump_power=30,
+                               frame_rate_ms=150, move_rate_ms=50, jump_height=140, p_scale=0.08, interval_time_jump=300)
+]
+
+        self.plataform_list_level2 = [
+        Plataform(x=510, y=500, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=True, type=24),
+        Plataform(x=600, y=430, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=False, type=25),
+        Plataform(
+            x=410, y=500, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=True, type=24),
+        Plataform(
+            x=950, y=360, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=False, type=26)
         
-        self.copia_enemys_list = []
-        self.copia_enemys_list.append(Enemy(x=450, y=400, speed_walk=6, speed_run=5, gravity=14, jump_power=30,
-                               frame_rate_ms=150, move_rate_ms=50, jump_height=140, p_scale=0.08, interval_time_jump=300))
+]
+        
         self.level_list = [] 
         self.level_1 = Level(self.player_1, self.plataform_list,
                              self.enemy_list, self.static_background, self.game)
-        self.level_2 = Level(self.player_1, self.copia_plataformas_list,
-                             self.copia_enemys_list, self.static_background_2, self.game)
+        self.level_2 = Level(self.player_1, self.plataform_list_level2, self.enemy_list_level2,
+                             self.static_background_2, self.game)
         self.level_3 = Level(self.player_1, self.plataform_list,
                              self.enemy_list, self.static_background, self.game)
         
@@ -152,7 +167,18 @@ class FormGameLevel1(Form):
         self.current_level.update(keys, tiempo_actual, delta_ms)
         self.game.update(tiempo_restante)
         self.game.is_game_over = self.player_1.is_death
-        
+        ''' volume = self.form_settings.get_volume()
+        volume_sounds = self.form_settings.get_volume_sounds()
+        if volume >0:
+            self.game.set_volume(volume)
+        else:
+            self.game.mute()   
+            
+        if volume_sounds >0:
+            self.game.set_sound_volume(volume_sounds)
+        else:
+            self.game.mute_sound()       
+            '''
         if self.current_position <=  self.current_level.level_limit:
             self.current_level.shift_world(0)
             

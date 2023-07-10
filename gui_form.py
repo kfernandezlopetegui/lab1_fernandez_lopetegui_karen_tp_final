@@ -24,8 +24,8 @@ class Form():
         self.active = active
         self.x = x
         self.y = y
-        self.volume_music = 1.0
-        self.volume_sounds = 1.0
+        self.volumen_music = 1.0
+        self.volumen_sounds = 1.0
 
         if(self.color_background != None):
             self.surface.fill(self.color_background)
@@ -51,6 +51,8 @@ class Form():
     @staticmethod
     def set_game_volume(volume):
        Game.set_sound_volume(volume)
+       
+  
        
     def render(self):
         pass

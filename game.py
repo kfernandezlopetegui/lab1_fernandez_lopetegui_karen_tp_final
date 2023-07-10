@@ -67,7 +67,7 @@ class Game():
         
     def set_sound_volume(self, volume):
         self.sound_volume = volume
-        self.golpe_sound.set_volume(self.sound_volume)
+        self.corte_sound.set_volume(self.sound_volume)
         self.disparo_sound.set_volume(self.sound_volume)
         self.muerte_sound.set_volume(self.sound_volume)
    
@@ -83,11 +83,11 @@ class Game():
     def mute_sound(self):
         self.is_sound_muted = not self.is_sound_muted
         if self.is_sound_muted:
-            self.golpe_sound.set_volume(0)
+            self.corte_sound.set_volume(0)
             self.disparo_sound.set_volume(0)
             self.muerte_sound.set_volume(0)
         else:
-            self.golpe_sound.set_volume(self.sound_volume)
+            self.corte_sound.set_volume(self.sound_volume)
             self.disparo_sound.set_volume(self.sound_volume)
             self.muerte_sound.set_volume(self.sound_volume)
    
