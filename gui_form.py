@@ -2,10 +2,11 @@ import pygame
 from pygame.locals import *
 from gui_widget import Widget
 from gui_button import Button
-
+from game import Game
 class Form():
     forms_dict = {}
     def __init__(self,name,master_surface,x,y,w,h,color_background,color_border,active):
+        self.name= name
         self.forms_dict[name] = self
         self.master_surface = master_surface
         self.x = x
@@ -14,6 +15,7 @@ class Form():
         self.h = h
         self.color_background = color_background
         self.color_border = color_border
+        self.score=0
 
         self.surface = pygame.Surface((w,h))
         self.slave_rect = self.surface.get_rect()
@@ -22,6 +24,8 @@ class Form():
         self.active = active
         self.x = x
         self.y = y
+        self.volume_music = 1.0
+        self.volume_sounds = 1.0
 
         if(self.color_background != None):
             self.surface.fill(self.color_background)
@@ -39,7 +43,15 @@ class Form():
             if(aux_form.active):
                 return aux_form
         return None
-
+    
+    @staticmethod
+    def set_game_volume(volume):
+        Game.set_volume(volume)
+    
+    @staticmethod
+    def set_game_volume(volume):
+       Game.set_sound_volume(volume)
+       
     def render(self):
         pass
 
@@ -47,6 +59,7 @@ class Form():
         pass
 
     def draw(self):
+        
         self.master_surface.blit(self.surface,self.slave_rect)
 
 

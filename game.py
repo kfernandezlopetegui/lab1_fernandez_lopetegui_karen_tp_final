@@ -2,6 +2,7 @@ import pygame
 from constantes import * 
 from auxiliar import *
 
+pygame.mixer.init()
 
 class Game():
     def __init__(self) -> None:
@@ -40,6 +41,72 @@ class Game():
         self.is_game_over = False  # Estado de "Game Over"
         self.score = 0  # Puntaje del juego
 
+        self.volume = 1.0
+        self.sound_volume = 1.0
+        
+        self.is_muted = False
+        
+        
+        self.is_sound_muted = False
+        # se cargan los sonidos predeterminados
+        self.corte_sound = pygame.mixer.Sound("music/corte.mp3")
+        self.disparo_sound = pygame.mixer.Sound("music/SHOOT.mp3")
+        self.muerte_sound = pygame.mixer.Sound("music/muerte.mp3")
+
+
+    def play_music(self, file_path):
+        pygame.mixer.music.load(file_path)
+        pygame.mixer.music.set_volume(self.volume)
+        pygame.mixer.music.play(-1)
+   
+        
+    def set_volume(self, volume):
+        self.volume = volume
+        pygame.mixer.music.set_volume(self.volume)
+   
+        
+    def set_sound_volume(self, volume):
+        self.sound_volume = volume
+        self.golpe_sound.set_volume(self.sound_volume)
+        self.disparo_sound.set_volume(self.sound_volume)
+        self.muerte_sound.set_volume(self.sound_volume)
+   
+        
+    def mute(self):
+        self.is_muted = not self.is_muted
+        if self.is_muted:
+            pygame.mixer.music.pause()
+        else:
+            pygame.mixer.music.unpause()
+   
+            
+    def mute_sound(self):
+        self.is_sound_muted = not self.is_sound_muted
+        if self.is_sound_muted:
+            self.golpe_sound.set_volume(0)
+            self.disparo_sound.set_volume(0)
+            self.muerte_sound.set_volume(0)
+        else:
+            self.golpe_sound.set_volume(self.sound_volume)
+            self.disparo_sound.set_volume(self.sound_volume)
+            self.muerte_sound.set_volume(self.sound_volume)
+   
+            
+    def reproducir_corte(self):
+        if not self.is_sound_muted:
+            self.corte_sound.play()
+
+
+    def reproducir_disparo(self):
+        if not self.is_sound_muted:
+            self.disparo_sound.play()
+
+
+    def reproducir_muerte(self):
+        if not self.is_sound_muted:
+            self.muerte_sound.play()        
+
+                
     def draw_timer(self, screen):
         # Convierte el valor del cronómetro a una cadena de texto
         timer_str = str(self.timer)
@@ -52,6 +119,7 @@ class Game():
                 digit_image = self.digit_images[digit]
                 screen.blit(digit_image, (x+200, 120))
                 x += digit_image.get_width()
+
 
     def draw_score(self, screen):
         # Convierte el valor del cronómetro a una cadena de texto
@@ -67,9 +135,11 @@ class Game():
                 screen.blit(digit_image, (x+700, 10))
                 x += digit_image.get_width()
 
+
     def draw_game_over(self, screen, x=100, y=350):
 
         screen.blit(self.game_over_image, (x, y))
+
 
     def update(self, tiempo_restante):
         # Lógica de actualización del juego

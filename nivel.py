@@ -11,7 +11,7 @@ class Level():
     
     """
  
-    def __init__(self, player, platform_list, enemy_list, background ):
+    def __init__(self, player, platform_list, enemy_list, background, game ):
        
         self.plataform_list = platform_list
         self.enemy_list = enemy_list
@@ -23,14 +23,15 @@ class Level():
  
         # que tanto es recorrido el mundo
         self.world_shift = 0
-        self.level_limit = -5000
+        self.level_limit = -4900
         '''self.platform_list = pygame.sprite.Group()
         self.enemy_list = pygame.sprite.Group()'''
         self.player_1 = player
         
         self.shoot_delay = 500  # Retraso en milisegundos entre disparos
         self.last_shoot_time = 0
-    
+
+        self.game= game
     
     def on_fire_shoot(self, el_que_dispara): 
             '''
@@ -45,6 +46,7 @@ class Level():
                 x_inicio=25      
                    
             self.bullet_list.append(Bullet(el_que_dispara.nombre,el_que_dispara.rect.centerx+x_inicio,el_que_dispara.rect.centery-25,x_final,el_que_dispara.rect.centery-25,35,type=True,frame_rate_ms=100,move_rate_ms=20,width=5,height=5))
+            self.game.reproducir_disparo()
             el_que_dispara.can_shoot = False
             
     # Se actualiza todo el nivel
@@ -64,8 +66,9 @@ class Level():
                    
         #Se actualiza cada enemigo en la lista
         for enemy_element in self.enemy_list:
-            enemy_element.update(delta_ms,self.plataform_list, self.player_1, tiempo_actual)
+            enemy_element.update(delta_ms,self.plataform_list, self.player_1, tiempo_actual, self.game)
             if enemy_element.is_death:
+                
                 self.enemy_list.remove(enemy_element)
                 self.player_1.score += 20
             if enemy_element.can_shoot or enemy_element.is_shooter:

@@ -109,7 +109,7 @@ class Enemy():
         distance = (distance_x ** 2 + distance_y ** 2) ** 0.5  # Fórmula de la distancia euclidiana
         return distance <= self.attack_range
         
-    def attack(self, player, tiempo_actual):
+    def attack(self, player, tiempo_actual, game):
         # Verifica la colisión entre el rectángulo del arma y el jugador
         
             
@@ -120,17 +120,11 @@ class Enemy():
                   
                     self.last_attack_time = tiempo_actual
                     self.attack_timer = tiempo_actual
-                
+                    game.reproducir_corte()
                     player.receive_damage(5)  # Aplica el daño al jugador
                     
                 
-                      
-        
-                      
-              
-    
-
-    def do_movement(self,delta_ms,plataform_list):
+    def do_movement(self,delta_ms,plataform_list, game):
         self.tiempo_transcurrido_move += delta_ms
         if(self.tiempo_transcurrido_move >= self.move_rate_ms):
             self.tiempo_transcurrido_move = 0
@@ -167,6 +161,7 @@ class Enemy():
                             else:
                                 self.contador = 0
             else:
+                game.reproducir_muerte()
                 self.do_death()
                 
                                     
@@ -215,11 +210,12 @@ class Enemy():
                 self.image = self.animation[self.frame]
             else:
                 if self.lives<1:
+                    
                     self.is_death=True
                      
                 self.frame = 0
 
-    def update(self,delta_ms,plataform_list, player, tiempo_actual):
+    def update(self,delta_ms,plataform_list, player, tiempo_actual, game):
         if self.damaged and tiempo_actual - self.damaged_timer > 350:  
             self.damaged = False
         if  self.is_attacking and tiempo_actual - self.attack_timer > 700 :
@@ -227,12 +223,12 @@ class Enemy():
             
             
         else:
-            self.attack(player, tiempo_actual)
+            self.attack(player, tiempo_actual, game)
          
                 
         self.update_weapon_rect()
            
-        self.do_movement(delta_ms,plataform_list)
+        self.do_movement(delta_ms,plataform_list,game)
         self.do_animation(delta_ms) 
         
 
