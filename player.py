@@ -5,10 +5,7 @@ from auxiliar import Auxiliar
 
 class Player:
     def __init__(self, x, y, speed_walk, speed_run, gravity, jump_power, frame_rate_ms, move_rate_ms, jump_height, p_scale=1, interval_time_jump=100) -> None:
-        '''
-        self.walk_r = Auxiliar.getSurfaceFromSpriteSheet("images/caracters/stink/walk.png",15,1,scale=p_scale)[:12]
-        '''
-        self.position = pygame.Vector2(x, y)
+        
         self.nombre = "player"
         self.stay_r = Auxiliar.getSurfaceFromSeparateFiles(
             "images/caracters/players/robot/Idle ({0}).png", 1, 10, flip=False, scale=p_scale)
@@ -248,7 +245,11 @@ class Player:
                     
                     self.frame = 0
         self.image = self.animation[self.frame]
-
+    
+    def crear_copia(self):
+        # Crear una nueva instancia del jugador con los mismos valores
+        return Player(self.x, self.y)
+    
     def update(self, delta_ms, plataform_list):
         self.do_movement(delta_ms, plataform_list)
         self.do_animation(delta_ms)

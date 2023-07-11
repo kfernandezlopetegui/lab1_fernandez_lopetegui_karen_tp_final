@@ -46,6 +46,8 @@ class FormGameLevel1(Form):
 
         self.player_1 = Player(x=0, y=400, speed_walk=9, speed_run=12, gravity=17, jump_power=30,
                                frame_rate_ms=100, move_rate_ms=50, jump_height=140, p_scale=0.2, interval_time_jump=300)
+        self.player_copia = Player(x=0, y=400, speed_walk=9, speed_run=12, gravity=17, jump_power=30,
+                               frame_rate_ms=100, move_rate_ms=50, jump_height=140, p_scale=0.2, interval_time_jump=300)
 
         self.enemy_list = []
         self.enemy_generation_condition = False
@@ -57,7 +59,8 @@ class FormGameLevel1(Form):
                                frame_rate_ms=150, move_rate_ms=50, jump_height=140, p_scale=0.08, interval_time_jump=300))
         self.enemy_list.append(Enemy(x=4500, y=400, speed_walk=6, speed_run=5, gravity=14, jump_power=30,
                                frame_rate_ms=150, move_rate_ms=50, jump_height=140, p_scale=0.08, interval_time_jump=300))
-
+        self.enemy_list_copy = self.enemy_list[:]
+        
         self.plataform_list = []
         self.plataform_list.append(Plataform(
             x=410, y=500, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=True, type=24))
@@ -87,6 +90,9 @@ class FormGameLevel1(Form):
             x=1050, y=260, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=False, type=26))
         self.plataform_list.append(Plataform(
             x=550, y=430, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=False, type=26))
+        
+        self.plataform_list_copy = self.plataform_list[:]
+        
         self.enemy_list_level2 = [
             Enemy(x=450, y=400, speed_walk=6, speed_run=5, gravity=14, jump_power=30,
                                frame_rate_ms=150, move_rate_ms=50, jump_height=140, p_scale=0.08, interval_time_jump=300),
@@ -146,7 +152,14 @@ class FormGameLevel1(Form):
                                          nombre_imagen_hurt="images/caracters/enemies/Troll1/Hurt_00{0}.png",
                                          cant_imag_hurt_inicio=0, cant_imag_hurt_fin=9, p_scale=0.40, interval_time_jump=300))
 
-   
+    def reiniciar_nivel(self, nivel):
+        self.player_1 = self.player_copia
+        self.plataform_list = self.plataform_list_copy
+        self.enemy_list = self.enemy_list_copy
+        self.static_background.rect.y =0 
+        self.static_background.rect.x =0
+        self.current_level.world_shift = 0
+        self.current_position = 0
     def update(self, lista_eventos, keys, delta_ms, tiempo_actual, tiempo_restante):
 
         for aux_widget in self.widget_list:
@@ -219,7 +232,9 @@ class FormGameLevel1(Form):
             
         if self.game.is_game_over:
             self.set_active("form_menu_game_over")
-            self.current_level.reiniciar_nivel(self.current_level_no)
+           
+            self.player_1 = self.player_copia
+            self.reiniciar_nivel(self.current_level_no)
            
             
         self.game.score = self.player_1.score

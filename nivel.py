@@ -97,7 +97,7 @@ class Level():
              
 
     def reiniciar_nivel(self, nivel):
-        self.player_1 = Level.player_original.copy()
+        self.player_1 = Level.player_original
         self.plataform_list = Level.plataformas_originales[:]
         self.enemy_list = Level.enemigos_originales[:]
         self.background.rect.y =0 
