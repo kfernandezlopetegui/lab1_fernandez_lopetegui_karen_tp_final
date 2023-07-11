@@ -3,6 +3,8 @@ from constantes import *
 from auxiliar import Auxiliar
 
 class Enemy():
+    enemigos_originales_nivel = {}
+
     
     def __init__(self,x,y,speed_walk,speed_run,gravity,jump_power,frame_rate_ms,
                  move_rate_ms,jump_height,nombre_imagen_walk="images/caracters/enemies/ork_sword/WALK/WALK_00{0}.png",
@@ -74,12 +76,17 @@ class Enemy():
         self.damaged_timer = 0
        
         self.weapon_rect = pygame.Rect(0, 0, 20, 30)
-        self.attack_range = 80  # Distancia máxima de ataque del enemigo
+        self.attack_range = 100  # Distancia máxima de ataque del enemigo
         self.is_attacking = False  # Estado de ataque del enemigo
         self.last_attack_time = 0 
         self.attack_delay = 700
         self.attack_timer = 0
         self.is_shooter = is_shooter  
+        
+        self.x_initial = x
+        self.y_initial = y
+       
+
     
     def change_x(self,delta_x):
         self.rect.x += delta_x

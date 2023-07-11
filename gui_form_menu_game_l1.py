@@ -15,7 +15,8 @@ from bullet import Bullet
 from game import Game
 from nivel import Level
 from gui_form_settings import FormMenuSettings
-from gui_form_settings import FormMenuSettings
+from gui_form_game_over import FormMenuGameOver
+
 
 class FormGameLevel1(Form):
     def __init__(self, name, master_surface, x, y, w, h, color_background, color_border, active):
@@ -26,9 +27,10 @@ class FormGameLevel1(Form):
         self.end_game = False
         self.contador= 0
         self.current_position = 0
-        self.game.play_music("music/donkey-kong-country.mp3")
+        #self.game.play_music("music/donkey-kong-country.mp3")
         self.form_settings = FormMenuSettings(self.game,name="form_menu_settings",master_surface = master_surface,x=300,y=200,w=500,h=400,color_background=(53,57,69),color_border=(255,0,255),active=False)
-
+        self.form_game_over = FormMenuGameOver(name="form_menu_game_over",master_surface = master_surface,x=300,y=200,w=500,h=400,color_background=(53,57,69),color_border=(255,0,255),active=False)
+               
  
 
        
@@ -108,18 +110,20 @@ class FormGameLevel1(Form):
         
         self.level_list = [] 
         self.level_1 = Level(self.player_1, self.plataform_list,
-                             self.enemy_list, self.static_background, self.game)
+                             self.enemy_list, self.static_background, self.game, 0)
         self.level_2 = Level(self.player_1, self.plataform_list_level2, self.enemy_list_level2,
-                             self.static_background_2, self.game)
+                             self.static_background_2, self.game, 1)
         self.level_3 = Level(self.player_1, self.plataform_list,
-                             self.enemy_list, self.static_background, self.game)
+                             self.enemy_list, self.static_background, self.game, 2)
         
         self.level_list.append(self.level_1)
         self.level_list.append(self.level_2)
         self.level_list.append(self.level_3)
-        
+        self.items_list=[]
         self.current_level_no = 0
         self.current_level = self.level_list[self.current_level_no]
+        
+
         
     def generate_enemies(self, num_enemies):
         min_x = 10  # Coordenada mínima en X donde pueden aparecer
@@ -212,6 +216,11 @@ class FormGameLevel1(Form):
         if self.player_1.is_death and self.contador == 60:
             
             self.end_game = self.game.is_game_over
+            
+        if self.game.is_game_over:
+            self.set_active("form_menu_game_over")
+            self.current_level.reiniciar_nivel(self.current_level_no)
+           
             
         self.game.score = self.player_1.score
         self.score = self.game.score

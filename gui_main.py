@@ -23,6 +23,7 @@ python -m pygame.examples.aliens
 
 flags = DOUBLEBUF 
 screen = pygame.display.set_mode((ANCHO_VENTANA,ALTO_VENTANA), flags, 16)
+pygame.display.set_caption("Mi Juego")
 pygame.init()
 clock = pygame.time.Clock()
 

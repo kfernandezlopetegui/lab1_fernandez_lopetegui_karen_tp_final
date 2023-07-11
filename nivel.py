@@ -10,13 +10,17 @@ class Level():
     Clase generica padre  nivel
     
     """
- 
-    def __init__(self, player, platform_list, enemy_list, background, game ):
+    enemigos_originales = []
+    plataformas_originales = []
+    player_original=[]
+    def __init__(self, player, platform_list, enemy_list, background, game, level ):
        
         self.plataform_list = platform_list
         self.enemy_list = enemy_list
         self.bullet_list = []
- 
+        Level.enemigos_originales = enemy_list
+        Level.plataformas_originales = platform_list
+        Level.player_original= player
         
         self.background = background
         
@@ -89,8 +93,17 @@ class Level():
         self.player_1.update(delta_ms,self.plataform_list)
            
         if not self.player_1.can_shoot and tiempo_actual - self.player_1.last_shoot_time >=self.player_1.shoot_delay:
-            self.player_1.can_shoot = True     
+            self.player_1.can_shoot = True    
+             
 
+    def reiniciar_nivel(self, nivel):
+        self.player_1 = Level.player_original.copy()
+        self.plataform_list = Level.plataformas_originales[:]
+        self.enemy_list = Level.enemigos_originales[:]
+        self.background.rect.y =0 
+        self.background.rect.x =0
+        self.world_shift = 0
+        
  
     def draw(self, screen):
       

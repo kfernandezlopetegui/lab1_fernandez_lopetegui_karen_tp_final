@@ -29,7 +29,7 @@ class FormMenuSettings(FormMenuA):
                              on_click=self.on_click_boton1, on_click_param="", text="", font="Verdana", font_size=30, font_color=C_WHITE)
         self.boton2 = Button(master=self, x=140, y=150, w=50, h=50, color_background=None, color_border=None, image_background="images/gui/set_gui_01/Pixel_Border/Buttons/audioMute.png",
                              on_click=self.on_click_boton2, on_click_param="", text="", font="Verdana", font_size=30, font_color=C_WHITE)
-        self.boton3 = Button(master=self, x=40, y=325, w=50, h=80, color_background=None, color_border=None, image_background="images/gui/set_gui_01/Pixel_Border/Buttons/arrowLeft.png",
+        self.boton3 = Button(master=self, x=40, y=20, w=90, h=80, color_background=None, color_border=None, image_background="images/gui/set_gui_01/Pixel_Border/Buttons/arrowLeft.png",
                              on_click=self.on_click_boton3, on_click_param="form_menu_pause", text="", font="Verdana", font_size=22, font_color=C_BLACK)
         self.boton4 = Button(master=self, x=450, y=250, w=50, h=50, color_background=None, color_border=None, image_background="images/gui/set_gui_01/Pixel_Border/Buttons/audioPlus.png",
                              on_click=self.on_click_boton4, on_click_param="", text="", font="Verdana", font_size=30, font_color=C_WHITE)
