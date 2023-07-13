@@ -40,6 +40,8 @@ form_menu_B = FormMenuB(name="form_menu_B",master_surface = screen,x=300,y=200,w
 form_menu_C = FormMenuC(name="form_menu_C",master_surface = screen,x=0,y=0,w=ANCHO_VENTANA,h=ALTO_VENTANA,color_background=(53,57,69),color_border=(255,0,255),active=False)
 form_pausa = FormMenuPausa(name="form_menu_pause" ,master_surface = screen,x=300,y=200,w=500,h=400,color_background=(53,57,69),color_border=(0,0,0),active=False)
 form_game_L1 = FormGameLevel1(name="form_game_L1",master_surface = screen,x=0,y=0,w=ANCHO_VENTANA_IMAGEN,h=ALTO_VENTANA,color_background=(53,57,69),color_border=(255,0,255),active=False)
+#form_game_restar= FormGameLevel1(name="form_game_l1_restart",master_surface = screen,x=0,y=0,w=ANCHO_VENTANA_IMAGEN,h=ALTO_VENTANA,color_background=(53,57,69),color_border=(255,0,255),active=False)
+#form_game_aux= FormGameLevel1(name="form_game_auxiliar",master_surface = screen,x=0,y=0,w=ANCHO_VENTANA_IMAGEN,h=ALTO_VENTANA,color_background=(53,57,69),color_border=(255,0,255),active=False)
 
 while True:     
     lista_eventos = pygame.event.get()
@@ -67,11 +69,16 @@ while True:
               
         aux_form_active.update(lista_eventos,keys,delta_ms, tiempo_actual, tiempo_restante_juego)
         aux_form_active.draw()
-        
-   
-    if tiempo_restante_juego== 0 or aux_form_active.end_game:
+        '''if  form_game_L1.restart==True:
+            form_game_L1.restart_pending = True
+            aux_form_active.restart = False
+        if form_game_L1.restart_pending:    
+            form_game_L1 = form_game_aux
+            form_game_L1.restart_pending = False 
+            print("llefgue pero no hice nada :v")'''
+    ''' if tiempo_restante_juego:
         pygame.quit()
-        sys.exit()  
+        sys.exit()  '''
     pygame.display.flip()
 
 

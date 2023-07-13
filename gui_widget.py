@@ -47,6 +47,9 @@ class Widget:
             
         if self.color_border:
             pygame.draw.rect(self.slave_surface, self.color_border, self.slave_surface.get_rect(), 2)
+    
+    def set_text(self, new_text):
+        self._text = new_text        
 
     def update(self):
         pass

@@ -1,7 +1,9 @@
 import pygame
  
-from constantes import * 
+from constantes import *
+from auxiliar import * 
 
+import copy
 
 from bullet import Bullet
  
@@ -10,19 +12,21 @@ class Level():
     Clase generica padre  nivel
     
     """
-    enemigos_originales = []
-    plataformas_originales = []
-    player_original=[]
-    def __init__(self, player, platform_list, enemy_list, background, game, level ):
-       
+   
+    def __init__(self, player, platform_list, enemy_list, item_list, background, game, level,otros_enemigos, otras_plataformas ):
+        
+        #copias para reestablecer el nivel
+        self.enemy_list_copia = otros_enemigos
+        self.plataformas_copia=otras_plataformas
+        
+            
         self.plataform_list = platform_list
         self.enemy_list = enemy_list
         self.bullet_list = []
-        Level.enemigos_originales = enemy_list
-        Level.plataformas_originales = platform_list
-        Level.player_original= player
+        self.items_list = item_list
         
         self.background = background
+      
         
  
         # que tanto es recorrido el mundo
@@ -31,6 +35,8 @@ class Level():
         '''self.platform_list = pygame.sprite.Group()
         self.enemy_list = pygame.sprite.Group()'''
         self.player_1 = player
+        
+        
         
         self.shoot_delay = 500  # Retraso en milisegundos entre disparos
         self.last_shoot_time = 0
@@ -67,7 +73,13 @@ class Level():
         # se actualiza cada plataforma en la lista        
         for plataform_element in self.plataform_list:
             plataform_element.update(delta_ms)
-                   
+            
+        for item in self.items_list:
+            if self.player_1.rect.colliderect(item.rect):
+                self.player_1.increment_item(item.name)
+                item.pickup()
+                self.items_list.remove(item)    
+                        
         #Se actualiza cada enemigo en la lista
         for enemy_element in self.enemy_list:
             enemy_element.update(delta_ms,self.plataform_list, self.player_1, tiempo_actual, self.game)
@@ -94,15 +106,19 @@ class Level():
            
         if not self.player_1.can_shoot and tiempo_actual - self.player_1.last_shoot_time >=self.player_1.shoot_delay:
             self.player_1.can_shoot = True    
-             
-
-    def reiniciar_nivel(self, nivel):
-        self.player_1 = Level.player_original
-        self.plataform_list = Level.plataformas_originales[:]
-        self.enemy_list = Level.enemigos_originales[:]
-        self.background.rect.y =0 
-        self.background.rect.x =0
+       
+    
+       
+        
+    def reiniciar_nivel(self, nivel, player,plataform_list,enemy_list, background):
+        player.reset()
+        plataform_list = self.plataformas_copia
+        enemy_list = self.enemy_list_copia
+        
+        background.update(0,0)
+       
         self.world_shift = 0
+        return player,plataform_list, enemy_list, background
         
  
     def draw(self, screen):
@@ -111,7 +127,10 @@ class Level():
 
         for plataforma in self.plataform_list:
             plataforma.draw(screen)
-
+            
+        for item in self.items_list:
+            item.draw(screen)
+            
         for enemy_element in self.enemy_list:
             enemy_element.draw(screen)
             
@@ -135,5 +154,9 @@ class Level():
  
         for enemy in self.enemy_list:
             enemy.rect.x += shift_x
+            
+        for item in self.items_list:
+            item.rect.x += shift_x
+                
  
 

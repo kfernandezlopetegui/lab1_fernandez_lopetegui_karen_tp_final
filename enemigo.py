@@ -46,10 +46,10 @@ class Enemy():
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        self.collition_rect = pygame.Rect(x+self.rect.width/3,y,self.rect.width/3,self.rect.height)
+        self.collition_rect = pygame.Rect(self.rect.x +self.rect.width/3,self.rect.y,self.rect.width/3,self.rect.height)
         self.ground_collition_rect = pygame.Rect(self.collition_rect)
         self.ground_collition_rect.height = GROUND_COLLIDE_H
-        self.ground_collition_rect.y = y + self.rect.height - GROUND_COLLIDE_H
+        self.ground_collition_rect.y =self.rect.y+ self.rect.height - GROUND_COLLIDE_H
 
         self.is_jump = False
         self.is_fall = False
@@ -99,6 +99,10 @@ class Enemy():
         self.ground_collition_rect.y += delta_y
     
     def update_weapon_rect(self):
+        self.collition_rect = pygame.Rect(self.rect.x +self.rect.width/3,self.rect.y,self.rect.width/3,self.rect.height)
+        self.ground_collition_rect.height = GROUND_COLLIDE_H
+        self.ground_collition_rect.y =self.rect.y+ self.rect.height - GROUND_COLLIDE_H
+        self.ground_collition_rect.x=  self.rect.x
         # Actualiza la posición del rectángulo del arma con respecto al enemigo
         if DIRECTION_L == self.direction:
             
@@ -238,6 +242,16 @@ class Enemy():
         self.do_movement(delta_ms,plataform_list,game)
         self.do_animation(delta_ms) 
         
+    def copy(self):
+        # Crear una nueva instancia de Enemy con los mismos valores de atributos
+        nueva_instancia = Enemy(self.rect.x, self.rect.y, self.speed_walk,
+                                 self.speed_run, self.gravity, self.jump_power,
+                                 self.frame_rate_ms, self.move_rate_ms, self.jump_height,
+                                 p_scale=0.07, interval_time_jump=100)
+        # Copiar otros atributos y componentes de la clase Enemy según sea necesario
+
+        # Retorna la nueva instancia copiada
+        return nueva_instancia
 
     def draw(self,screen):
         
@@ -245,10 +259,13 @@ class Enemy():
             pygame.draw.rect(screen,color=(255,0 ,0),rect=self.collition_rect)
             pygame.draw.rect(screen,color=(255,255,0),rect=self.ground_collition_rect)
             pygame.draw.rect(screen,color=(255,255,0),rect=self.weapon_rect)
-            
         
-        #self.image = self.animation[self.frame]
-        screen.blit(self.image,self.rect)
+        x = self.rect.x
+        y = self.rect.y
+
+        screen.blit(self.image, (x, y))    
+        
+    
         
     def receive_shoot(self):
         self.contador_daño +=1

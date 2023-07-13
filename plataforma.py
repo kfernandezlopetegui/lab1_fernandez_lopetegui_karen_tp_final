@@ -23,11 +23,21 @@ class Plataform:
         self.tiempo_transcurrido_move = 0
         self.move_rate_ms = move_rate_ms
         self.contador=0
+        self.width=width 
+        self.height=height
+        self.type= type
         
 
     def draw(self,screen):
         
-        screen.blit(self.image,self.rect)
+         
+        x = self.rect.x
+        y = self.rect.y
+
+        screen.blit(self.image, (x, y))    
+        
+        
+       
         if(DEBUG):
             pygame.draw.rect(screen,color=(255,0 ,0),rect=self.collition_rect)
             pygame.draw.rect(screen,color=(255,255,0),rect=self.ground_collition_rect)
@@ -49,11 +59,11 @@ class Plataform:
                 self.tiempo_transcurrido_move = 0
 
                 self.change_x(self.move_x)
-                if self.contador <= 60:
+                if self.contador <= 70:
                             self.move_x = -self.speed_move
                             
                             self.contador += 1 
-                elif self.contador <= 120:
+                elif self.contador <= 140:
                             self.move_x = self.speed_move
                         
                             self.contador += 1    
@@ -62,5 +72,19 @@ class Plataform:
                             
     def update(self,delta_ms):
         if self.move:
-            self.do_movement(delta_ms)              
+            self.do_movement(delta_ms)
+        self.collition_rect = pygame.Rect(self.rect.x+self.rect.width/3, self.rect.y,self.rect.width/3,self.rect.height)
+        self.ground_collition_rect = pygame.Rect(self.rect)
+        self.ground_collition_rect.height = GROUND_COLLIDE_H    
+                     
+    def copy(self):
+        # Crear una nueva instancia de Enemy con los mismos valores de atributos
+        nueva_instancia = Plataform(self.rect.x, self.rect.y, self.width,
+                                    self.height, self.frame_rate_ms, self.move_rate_ms,
+                                    self.move, self.type)
+        # Copiar otros atributos y componentes de la clase Enemy según sea necesario
+
+        # Retorna la nueva instancia copiada
+        return nueva_instancia
+             
         

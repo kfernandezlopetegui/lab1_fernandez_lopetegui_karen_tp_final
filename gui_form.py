@@ -26,7 +26,8 @@ class Form():
         self.y = y
         self.volumen_music = 1.0
         self.volumen_sounds = 1.0
-
+        self.restart=False
+        self.quit=False
         if(self.color_background != None):
             self.surface.fill(self.color_background)
         self.end_game= False    
@@ -52,8 +53,12 @@ class Form():
     def set_game_volume(volume):
        Game.set_sound_volume(volume)
        
-  
-       
+    def on_click_boton_active(self, parametro):
+        self.set_active(parametro)
+    
+    def reset(self):
+        pass    
+    
     def render(self):
         pass
 

@@ -75,3 +75,11 @@ class Auxiliar:
                     imagen, (fotograma_ancho_scaled, fotograma_alto_scaled)).convert_alpha()
         
         return imagen_escalada
+    @staticmethod
+    def crear_lista_copia(lista_a_copiar:list):
+        lista__copiada=[]
+        for elemento in lista_a_copiar:
+            elemento_copia = elemento.copy()
+            lista__copiada.append(elemento_copia)
+            
+        return lista__copiada    

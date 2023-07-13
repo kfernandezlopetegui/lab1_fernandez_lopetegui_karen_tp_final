@@ -1,12 +1,18 @@
 import pygame
 from constantes import *
 from auxiliar import Auxiliar
-
+import copy
 
 class Player:
     def __init__(self, x, y, speed_walk, speed_run, gravity, jump_power, frame_rate_ms, move_rate_ms, jump_height, p_scale=1, interval_time_jump=100) -> None:
         
         self.nombre = "player"
+        self.inventory = {
+            "herramienta": 0,
+            "llave": 0,
+            "tuercas": 0,
+            "combustible": 0
+        }
         self.stay_r = Auxiliar.getSurfaceFromSeparateFiles(
             "images/caracters/players/robot/Idle ({0}).png", 1, 10, flip=False, scale=p_scale)
         self.stay_l = Auxiliar.getSurfaceFromSeparateFiles(
@@ -52,7 +58,10 @@ class Player:
         self.ground_collition_rect = pygame.Rect(self.collition_rect)
         self.ground_collition_rect.height = GROUND_COLLIDE_H
         self.ground_collition_rect.y = y + self.rect.height - GROUND_COLLIDE_H
-
+        
+        self.x_initial = x
+        self.y_initial = y
+        
         self.is_jump = False
         self.is_fall = False
         self.is_shoot = False
@@ -226,16 +235,19 @@ class Player:
         self.tiempo_transcurrido_animation += delta_ms
         if (self.tiempo_transcurrido_animation >= self.frame_rate_ms):
             self.tiempo_transcurrido_animation = 0
-            if self.animation == self.death_l or  self.animation== self.death_r:
-                if not self.animacion_muerte_completada:
-          
-                    self.frame += 1
-                    if self.frame >= len(self.animation):
-                        self.frame = len(self.animation) - 1  # Muestra el último fotograma
-                        self.animacion_muerte_completada = True
-                else:
-                    
-                        self.is_death = True        
+            if self.lives<1:
+                
+                if self.animation == self.death_l or  self.animation== self.death_r:
+                    if not self.animacion_muerte_completada:
+            
+                        self.frame += 1
+                        if self.frame >= len(self.animation):
+                            self.frame = len(self.animation) - 1  # Muestra el último fotograma
+                            self.animacion_muerte_completada = True
+                    else:
+                        
+                            self.is_death = True 
+                               
             else:
                         
                 if (self.frame < len(self.animation) - 1):
@@ -245,15 +257,77 @@ class Player:
                     
                     self.frame = 0
         self.image = self.animation[self.frame]
-    
-    def crear_copia(self):
-        # Crear una nueva instancia del jugador con los mismos valores
-        return Player(self.x, self.y)
-    
+        
+    def reset(self):
+        self.frame = 0
+        self.lives = 5
+        self.score = 0
+        self.move_x = 0
+        self.move_y = 0
+        self.animation = self.stay_r
+        self.direction = DIRECTION_R
+        self.image = self.animation[self.frame]
+        self.rect.x = self.x_initial
+        self.rect.y = self.y_initial
+        self.collition_rect = pygame.Rect(
+           self.x_initial+self.rect.width/3,self.y_initial, self.rect.width/3, self.rect.height)
+        self.ground_collition_rect = pygame.Rect(self.collition_rect)
+        self.ground_collition_rect.height = GROUND_COLLIDE_H
+        self.ground_collition_rect.y =self.y_initial + self.rect.height - GROUND_COLLIDE_H
+       
+       
+        self.is_jump = False
+        self.is_fall = False
+        self.is_shoot = False
+        self.is_knife = False
+
+        self.tiempo_transcurrido_animation = 0
+        self.tiempo_transcurrido_move = 0
+
+        self.tiempo_transcurrido = 0
+        self.tiempo_last_jump = 0
+
+        self.can_shoot = True
+        self.last_shoot_time = None
+
+        self.contador_daño_recibido = 0
+
+        self.platform = None
+
+        self.is_stay = True
+
+        self.is_death = False
+
+        self.animacion_muerte_completada = False
+   
     def update(self, delta_ms, plataform_list):
+        self.collition_rect = pygame.Rect(
+            self.rect.x+self.rect.width/3, self.rect.y, self.rect.width/3, self.rect.height)
+        self.ground_collition_rect = pygame.Rect(self.collition_rect)
+        self.ground_collition_rect.height = GROUND_COLLIDE_H
+        self.ground_collition_rect.y = self.rect.y + self.rect.height - GROUND_COLLIDE_H
+        
         self.do_movement(delta_ms, plataform_list)
         self.do_animation(delta_ms)
 
+    def __deepcopy__(self, memo):
+        # Crear una nueva instancia de Player con los mismos valores de atributos
+        nueva_instancia = Player( self.rect.x, self.rect.y, self.speed_walk,
+                                 self.speed_run, self.gravity, self.jump_power,
+                                 self.frame_rate_ms, self.move_rate_ms, self.jump_height,
+                                 p_scale=1, interval_time_jump=100)
+        # Copiar otros atributos y componentes de la clase Player según sea necesario
+
+        # Retorna la nueva instancia copiada
+        return nueva_instancia
+   
+    def increment_item(self, item_name):
+        if item_name in self.inventory:
+            self.inventory[item_name] += 1
+            
+        else:
+            print(f"No se puede recolectar {item_name}. No es un item válido.")
+  
     def draw(self, screen, offset=None):
 
         if (DEBUG):
@@ -264,7 +338,7 @@ class Player:
 
         x = self.rect.x
         y = self.rect.y
-        print("x={}".format(x))
+       
 
         screen.blit(self.image, (x, y))
 

@@ -1,11 +1,12 @@
 import pygame
 from constantes import *
 from auxiliar import Auxiliar
+import copy
 
 
 class Background:
     def __init__(self, x, y,width, height,  path):
-
+        self.path= path
         self.image = pygame.image.load(path).convert()
         self.image = pygame.transform.scale(self.image,(width,height))
         self.rect = self.image.get_rect()
@@ -13,7 +14,9 @@ class Background:
         self.rect.y = y
         self.collition_rect = pygame.Rect(x+self.rect.width/3,y,self.rect.width/3,self.rect.height)
 
-
+    def update(self,x, y):
+        self.rect.y = x
+        self.rect.x = y
     def draw(self,screen, offset):
         y = self.rect.y 
         x = self.rect.x
@@ -27,4 +30,4 @@ class Background:
         #screen.blit(self.image,self.rect)
         if(DEBUG):
             pygame.draw.rect(screen,color=(255,0 ,0),rect=self.collition_rect)        
-        
+    
