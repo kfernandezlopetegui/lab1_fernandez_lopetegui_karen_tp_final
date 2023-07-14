@@ -41,9 +41,11 @@ class FormGameLevel1(Form):
 
         # --- GAME ok ELEMNTS ---
         self.static_background = Background(
-            x=0, y=0, width=w, height=h, path="images\locations\set_bg_01\prueba1.png")
+            x=0, y=0, width=w, height=h, path="images/locations/set_bg_01/prueba1.png")
         self.static_background_2 = Background(
-            x=0, y=0, width=w, height=h, path="images\locations\set_bg_01\segundo_nivel.jpg")
+            x=0, y=0, width=w, height=h, path="images/locations/set_bg_01/segundo_nivel.jpg")
+        self.static_background_3 = Background(
+            x=0, y=0, width=w, height=h, path="images/locations/set_bg_01/tercer_nivel.png")
 
         self.player_1 = Player(x=0, y=400, speed_walk=9, speed_run=12, gravity=17, jump_power=30,
                                frame_rate_ms=100, move_rate_ms=50, jump_height=140, p_scale=0.2, interval_time_jump=300)
@@ -58,6 +60,48 @@ class FormGameLevel1(Form):
                                frame_rate_ms=150, move_rate_ms=50, jump_height=140, p_scale=0.07, interval_time_jump=300))
         self.enemy_list.append(Enemy(x=4500, y=400, speed_walk=6, speed_run=5, gravity=14, jump_power=30,
                                frame_rate_ms=150, move_rate_ms=50, jump_height=140, p_scale=0.07, interval_time_jump=300))
+        self.enemy_list.append( Enemy(x=4900,y=400,speed_walk=9, speed_run=5, gravity=14, jump_power=30,
+                               frame_rate_ms=150, move_rate_ms=50, jump_height=140,
+                               nombre_imagen_walk="images/caracters/enemies/Troll1/Walk_00{0}.png",
+                 cant_imag_walk_inicio=0,cant_imag_walk_fin=9,
+                 nombre_imagen_idle="images/caracters/enemies/Troll1/Idle_00{0}.png",
+                 cant_imag_idle_inicio=0,cant_imag_idle_fin=7,
+                 nombre_imagen_die="images/caracters/enemies/Troll1/Dead_00{0}.png",
+                 cant_imag_die_inicio=0,cant_imag_die_fin=9,
+                 nombre_imagen_hurt="images/caracters/enemies/Troll1/Hurt_00{0}.png",
+                 cant_imag_hurt_inicio=0,cant_imag_hurt_fin=6,
+                 nombre_imagen_attak="images/caracters/enemies/Troll1/Attack_00{0}.png",
+                 cant_imag_attak_inicio=0,cant_imag_attak_fin=6,p_scale=0.19,interval_time_jump=100,
+                 is_shooter=False
+                 ))
+        self.enemy_list.append( Enemy(x=4000,y=400,speed_walk=9, speed_run=5, gravity=14, jump_power=30,
+                               frame_rate_ms=150, move_rate_ms=50, jump_height=140,
+                               nombre_imagen_walk="images/caracters/enemies/Troll1/Walk_00{0}.png",
+                 cant_imag_walk_inicio=0,cant_imag_walk_fin=9,
+                 nombre_imagen_idle="images/caracters/enemies/Troll1/Idle_00{0}.png",
+                 cant_imag_idle_inicio=0,cant_imag_idle_fin=7,
+                 nombre_imagen_die="images/caracters/enemies/Troll1/Dead_00{0}.png",
+                 cant_imag_die_inicio=0,cant_imag_die_fin=9,
+                 nombre_imagen_hurt="images/caracters/enemies/Troll1/Hurt_00{0}.png",
+                 cant_imag_hurt_inicio=0,cant_imag_hurt_fin=6,
+                 nombre_imagen_attak="images/caracters/enemies/Troll1/Attack_00{0}.png",
+                 cant_imag_attak_inicio=0,cant_imag_attak_fin=6,p_scale=0.19,interval_time_jump=100,
+                 is_shooter=False
+                 ))
+        self.enemy_list.append( Enemy(x=3000,y=400,speed_walk=9, speed_run=5, gravity=14, jump_power=30,
+                               frame_rate_ms=150, move_rate_ms=50, jump_height=140,
+                               nombre_imagen_walk="images/caracters/enemies/Troll1/Walk_00{0}.png",
+                 cant_imag_walk_inicio=0,cant_imag_walk_fin=9,
+                 nombre_imagen_idle="images/caracters/enemies/Troll1/Idle_00{0}.png",
+                 cant_imag_idle_inicio=0,cant_imag_idle_fin=7,
+                 nombre_imagen_die="images/caracters/enemies/Troll1/Dead_00{0}.png",
+                 cant_imag_die_inicio=0,cant_imag_die_fin=9,
+                 nombre_imagen_hurt="images/caracters/enemies/Troll1/Hurt_00{0}.png",
+                 cant_imag_hurt_inicio=0,cant_imag_hurt_fin=6,
+                 nombre_imagen_attak="images/caracters/enemies/Troll1/Attack_00{0}.png",
+                 cant_imag_attak_inicio=0,cant_imag_attak_fin=6,p_scale=0.19,interval_time_jump=100,
+                 is_shooter=False
+                 ))
         self.enemy_list_copy = self.enemy_list[:]
         
         self.plataform_list = []
@@ -89,18 +133,164 @@ class FormGameLevel1(Form):
             x=1050, y=260, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=False, type=26))
         self.plataform_list.append(Plataform(
             x=550, y=430, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=False, type=26))
+        self.plataform_list.append( Plataform(x=2400, y=360, width=50, height=50,
+                                              frame_rate_ms=150, move_rate_ms=50, move=False, type=26))
         
         self.plataform_list_copy = self.plataform_list[:]
         
         self.enemy_list_level2 = [
             Enemy(x=450, y=400, speed_walk=6, speed_run=5, gravity=14, jump_power=30,
                                frame_rate_ms=150, move_rate_ms=50, jump_height=140, p_scale=0.08, interval_time_jump=300),
-            Enemy(x=900, y=400, speed_walk=6, speed_run=5, gravity=14, jump_power=30,
-                               frame_rate_ms=150, move_rate_ms=50, jump_height=140, p_scale=0.08, interval_time_jump=300),
+            Enemy(x=800,y=400,speed_walk=9, speed_run=5, gravity=14, jump_power=30,
+                               frame_rate_ms=150, move_rate_ms=50, jump_height=140,
+                               nombre_imagen_walk="images/caracters/enemies/Troll1/Walk_00{0}.png",
+                 cant_imag_walk_inicio=0,cant_imag_walk_fin=9,
+                 nombre_imagen_idle="images/caracters/enemies/Troll1/Idle_00{0}.png",
+                 cant_imag_idle_inicio=0,cant_imag_idle_fin=7,
+                 nombre_imagen_die="images/caracters/enemies/Troll1/Dead_00{0}.png",
+                 cant_imag_die_inicio=0,cant_imag_die_fin=9,
+                 nombre_imagen_hurt="images/caracters/enemies/Troll1/Hurt_00{0}.png",
+                 cant_imag_hurt_inicio=0,cant_imag_hurt_fin=6,
+                 nombre_imagen_attak="images/caracters/enemies/Troll1/Attack_00{0}.png",
+                 cant_imag_attak_inicio=0,cant_imag_attak_fin=6,p_scale=0.19,interval_time_jump=100,
+                 is_shooter=False
+                 ),
             Enemy(x=1600, y=400, speed_walk=6, speed_run=5, gravity=14, jump_power=30,
                                frame_rate_ms=150, move_rate_ms=50, jump_height=140, p_scale=0.08, interval_time_jump=300),
             Enemy(x=200, y=400, speed_walk=6, speed_run=5, gravity=14, jump_power=30,
-                               frame_rate_ms=150, move_rate_ms=50, jump_height=140, p_scale=0.08, interval_time_jump=300)
+                               frame_rate_ms=150, move_rate_ms=50, jump_height=140, p_scale=0.08, interval_time_jump=300),
+             Enemy(x=4500,y=400,speed_walk=9, speed_run=5, gravity=14, jump_power=30,
+                               frame_rate_ms=150, move_rate_ms=50, jump_height=140,
+                               nombre_imagen_walk="images/caracters/enemies/Troll1/Walk_00{0}.png",
+                 cant_imag_walk_inicio=0,cant_imag_walk_fin=9,
+                 nombre_imagen_idle="images/caracters/enemies/Troll1/Idle_00{0}.png",
+                 cant_imag_idle_inicio=0,cant_imag_idle_fin=7,
+                 nombre_imagen_die="images/caracters/enemies/Troll1/Dead_00{0}.png",
+                 cant_imag_die_inicio=0,cant_imag_die_fin=9,
+                 nombre_imagen_hurt="images/caracters/enemies/Troll1/Hurt_00{0}.png",
+                 cant_imag_hurt_inicio=0,cant_imag_hurt_fin=6,
+                 nombre_imagen_attak="images/caracters/enemies/Troll1/Attack_00{0}.png",
+                 cant_imag_attak_inicio=0,cant_imag_attak_fin=6,p_scale=0.19,interval_time_jump=100,
+                 is_shooter=False
+                 ),
+             Enemy(x=3500,y=400,speed_walk=9, speed_run=5, gravity=14, jump_power=30,
+                               frame_rate_ms=150, move_rate_ms=50, jump_height=140,
+                               nombre_imagen_walk="images/caracters/enemies/Troll1/Walk_00{0}.png",
+                 cant_imag_walk_inicio=0,cant_imag_walk_fin=9,
+                 nombre_imagen_idle="images/caracters/enemies/Troll1/Idle_00{0}.png",
+                 cant_imag_idle_inicio=0,cant_imag_idle_fin=7,
+                 nombre_imagen_die="images/caracters/enemies/Troll1/Dead_00{0}.png",
+                 cant_imag_die_inicio=0,cant_imag_die_fin=9,
+                 nombre_imagen_hurt="images/caracters/enemies/Troll1/Hurt_00{0}.png",
+                 cant_imag_hurt_inicio=0,cant_imag_hurt_fin=6,
+                 nombre_imagen_attak="images/caracters/enemies/Troll1/Attack_00{0}.png",
+                 cant_imag_attak_inicio=0,cant_imag_attak_fin=6,p_scale=0.19,interval_time_jump=100,
+                 is_shooter=False
+                 ),
+             Enemy(x=300,y=400,speed_walk=9, speed_run=5, gravity=14, jump_power=30,
+                               frame_rate_ms=150, move_rate_ms=50, jump_height=140,
+                               nombre_imagen_walk="images/caracters/players/robot/Run ({0}).png",
+                 cant_imag_walk_inicio=1,cant_imag_walk_fin=8,
+                 nombre_imagen_idle="images/caracters/players/robot/Idle ({0}).png",
+                 cant_imag_idle_inicio=1,cant_imag_idle_fin=9,
+                 nombre_imagen_die="images/caracters/players/robot/Dead ({0}).png",
+                 cant_imag_die_inicio=1,cant_imag_die_fin=10,
+                 nombre_imagen_hurt="images/caracters/players/robot/Melee ({0}).png",
+                 cant_imag_hurt_inicio=1,cant_imag_hurt_fin=8,
+                 nombre_imagen_attak="images/caracters/players/robot/Slide ({0}).png",
+                 cant_imag_attak_inicio=1,cant_imag_attak_fin=10,p_scale=0.2,interval_time_jump=100,
+                 is_shooter=True
+                 )
+]
+        self.enemy_list_level3 = [
+            Enemy(x=300,y=400,speed_walk=9, speed_run=5, gravity=14, jump_power=30,
+                               frame_rate_ms=150, move_rate_ms=50, jump_height=140,
+                               nombre_imagen_walk="images/caracters/players/robot/Run ({0}).png",
+                 cant_imag_walk_inicio=1,cant_imag_walk_fin=8,
+                 nombre_imagen_idle="images/caracters/players/robot/Idle ({0}).png",
+                 cant_imag_idle_inicio=1,cant_imag_idle_fin=9,
+                 nombre_imagen_die="images/caracters/players/robot/Dead ({0}).png",
+                 cant_imag_die_inicio=1,cant_imag_die_fin=10,
+                 nombre_imagen_hurt="images/caracters/players/robot/Melee ({0}).png",
+                 cant_imag_hurt_inicio=1,cant_imag_hurt_fin=8,
+                 nombre_imagen_attak="images/caracters/players/robot/Slide ({0}).png",
+                 cant_imag_attak_inicio=1,cant_imag_attak_fin=10,p_scale=0.2,interval_time_jump=100,
+                 is_shooter=True
+                 ),
+             Enemy(x=3500,y=400,speed_walk=9, speed_run=5, gravity=14, jump_power=30,
+                               frame_rate_ms=150, move_rate_ms=50, jump_height=140,
+                               nombre_imagen_walk="images/caracters/players/robot/Run ({0}).png",
+                 cant_imag_walk_inicio=1,cant_imag_walk_fin=8,
+                 nombre_imagen_idle="images/caracters/players/robot/Idle ({0}).png",
+                 cant_imag_idle_inicio=1,cant_imag_idle_fin=9,
+                 nombre_imagen_die="images/caracters/players/robot/Dead ({0}).png",
+                 cant_imag_die_inicio=1,cant_imag_die_fin=10,
+                 nombre_imagen_hurt="images/caracters/players/robot/Melee ({0}).png",
+                 cant_imag_hurt_inicio=1,cant_imag_hurt_fin=8,
+                 nombre_imagen_attak="images/caracters/players/robot/Slide ({0}).png",
+                 cant_imag_attak_inicio=1,cant_imag_attak_fin=10,p_scale=0.2,interval_time_jump=100,
+                 is_shooter=True
+                 ),
+             
+              Enemy(x=5000,y=400,speed_walk=9, speed_run=5, gravity=14, jump_power=30,
+                               frame_rate_ms=150, move_rate_ms=50, jump_height=140,
+                               nombre_imagen_walk="images/caracters/players/robot/Run ({0}).png",
+                 cant_imag_walk_inicio=1,cant_imag_walk_fin=8,
+                 nombre_imagen_idle="images/caracters/players/robot/Idle ({0}).png",
+                 cant_imag_idle_inicio=1,cant_imag_idle_fin=9,
+                 nombre_imagen_die="images/caracters/players/robot/Dead ({0}).png",
+                 cant_imag_die_inicio=1,cant_imag_die_fin=10,
+                 nombre_imagen_hurt="images/caracters/players/robot/Melee ({0}).png",
+                 cant_imag_hurt_inicio=1,cant_imag_hurt_fin=8,
+                 nombre_imagen_attak="images/caracters/players/robot/Melee ({0}).png",
+                 cant_imag_attak_inicio=1,cant_imag_attak_fin=8,p_scale=0.2,interval_time_jump=100,
+                 is_shooter=True
+                 ),
+            
+            
+             Enemy(x=600,y=400,speed_walk=9, speed_run=5, gravity=14, jump_power=30,
+                               frame_rate_ms=150, move_rate_ms=50, jump_height=140,
+                               nombre_imagen_walk="images/caracters/enemies/Troll1/Walk_00{0}.png",
+                 cant_imag_walk_inicio=0,cant_imag_walk_fin=9,
+                 nombre_imagen_idle="images/caracters/enemies/Troll1/Idle_00{0}.png",
+                 cant_imag_idle_inicio=0,cant_imag_idle_fin=7,
+                 nombre_imagen_die="images/caracters/enemies/Troll1/Dead_00{0}.png",
+                 cant_imag_die_inicio=0,cant_imag_die_fin=9,
+                 nombre_imagen_hurt="images/caracters/enemies/Troll1/Hurt_00{0}.png",
+                 cant_imag_hurt_inicio=0,cant_imag_hurt_fin=6,
+                 nombre_imagen_attak="images/caracters/enemies/Troll1/Attack_00{0}.png",
+                 cant_imag_attak_inicio=0,cant_imag_attak_fin=6,p_scale=0.19,interval_time_jump=100,
+                 is_shooter=False
+                 ),
+    
+            Enemy(x=1600, y=400, speed_walk=9, speed_run=5, gravity=14, jump_power=30,
+                               frame_rate_ms=150, move_rate_ms=50, jump_height=140,
+                               nombre_imagen_walk="images/caracters/enemies/Troll1/Walk_00{0}.png",
+                 cant_imag_walk_inicio=0,cant_imag_walk_fin=9,
+                 nombre_imagen_idle="images/caracters/enemies\Troll1\Idle_00{0}.png",
+                 cant_imag_idle_inicio=0,cant_imag_idle_fin=7,
+                 nombre_imagen_die="images/caracters/enemies/Troll1/Dead_00{0}.png",
+                 cant_imag_die_inicio=0,cant_imag_die_fin=9,
+                 nombre_imagen_hurt="images/caracters/enemies/Troll1/Hurt_00{0}.png",
+                 cant_imag_hurt_inicio=0,cant_imag_hurt_fin=6,
+                 nombre_imagen_attak="images/caracters/enemies/Troll1/Attack_00{0}.png",
+                 cant_imag_attak_inicio=0,cant_imag_attak_fin=6,p_scale=0.19,interval_time_jump=100,
+                 is_shooter=False
+                 ),
+            Enemy(x=300, y=400, speed_walk=9, speed_run=5, gravity=14, jump_power=30,
+                               frame_rate_ms=150, move_rate_ms=50, jump_height=140,
+                               nombre_imagen_walk="images/caracters/enemies/Troll1/Walk_00{0}.png",
+                 cant_imag_walk_inicio=0,cant_imag_walk_fin=9,
+                 nombre_imagen_idle="images/caracters/enemies/Troll1/Idle_00{0}.png",
+                 cant_imag_idle_inicio=0,cant_imag_idle_fin=7,
+                 nombre_imagen_die="images/caracters/enemies/Troll1/Dead_00{0}.png",
+                 cant_imag_die_inicio=0,cant_imag_die_fin=9,
+                 nombre_imagen_hurt="images/caracters/enemies/Troll1/Hurt_00{0}.png",
+                 cant_imag_hurt_inicio=0,cant_imag_hurt_fin=6,
+                 nombre_imagen_attak="images/caracters/enemies/Troll1/Attack_00{0}.png",
+                 cant_imag_attak_inicio=0,cant_imag_attak_fin=6,p_scale=0.19,interval_time_jump=100,
+                 is_shooter=False
+                 ),
 ]
 
         self.plataform_list_level2 = [
@@ -109,24 +299,57 @@ class FormGameLevel1(Form):
         Plataform(
             x=410, y=500, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=True, type=24),
         Plataform(
-            x=950, y=360, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=False, type=26)
+            x=950, y=360, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=False, type=26),
+        Plataform(x=800, y=360, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=False, type=26),
+        Plataform(x=1200, y=360, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=False, type=26),
+        Plataform(x=1800, y=360, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=False, type=26),
+        Plataform(x=2400, y=360, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=False, type=26)
         
 ]       
-        self.items_list = [Item(name="herramienta", x=1250,y=700,width=100,height=100,type=1),
-                           Item(name="llave", x=150,y=700,width=93,height=55,type=3),
-                           Item(name="tuercas", x=500,y=700,width=100,height=90,type=2),
-                           Item(name="combustible", x=4500,y=700,width=70,height=67,type=0)]
-        self.items_list2 = [Item(name="herramienta", x=1250,y=700,width=100,height=100,type=1),
-                           Item(name="llave", x=150,y=700,width=93,height=55,type=3),
-                           Item(name="tuercas", x=500,y=700,width=100,height=90,type=2),
-                           Item(name="combustible", x=4500,y=700,width=70,height=67,type=0)]
+        self.plataform_list_level3 = [
+        Plataform(x=510, y=500, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=True, type=24),
+        Plataform(x=600, y=430, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=False, type=25),
+        Plataform(
+            x=410, y=500, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=True, type=24),
+        Plataform(
+            x=950, y=360, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=False, type=26),
+        Plataform(x=800, y=360, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=False, type=26),
+        Plataform(x=1200, y=360, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=False, type=26),
+        Plataform(x=1800, y=360, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=False, type=26),
+        Plataform(x=2400, y=360, width=50, height=50, frame_rate_ms=150, move_rate_ms=50, move=False, type=26)
+        
+]       
+        self.items_list = [Item(name="herramienta", x=1250,y=300,width=100,height=100,type=1),
+                           Item(name="llave", x=150,y=300,width=93,height=55,type=3),
+                           Item(name="tuercas", x=500,y=300,width=100,height=90,type=2),
+                           Item(name="combustible", x=4500,y=300,width=70,height=67,type=0),
+                           Item(name="herramienta", x=1250, y=400, width=100, height=100, type=1),
+                            Item(name="llave", x=150, y=300, width=93, height=55, type=3),
+                            Item(name="tuercas", x=700, y=500, width=100, height=90, type=2),
+                            Item(name="combustible", x=4500, y=400, width=70, height=67, type=0)]
+        self.items_list2 = [Item(name="herramienta", x=1250,y=300,width=100,height=100,type=1),
+                           Item(name="llave", x=150,y=300,width=93,height=55,type=3),
+                           Item(name="tuercas", x=500,y=300,width=100,height=90,type=2),
+                           Item(name="combustible", x=4500,y=400,width=70,height=67,type=0),
+                           Item(name="herramienta", x=1250, y=400, width=100, height=100, type=1),
+                            Item(name="llave", x=150, y=300, width=93, height=55, type=3),
+                            Item(name="tuercas", x=500, y=300, width=100, height=90, type=2),
+                            Item(name="combustible", x=4500, y=400, width=70, height=67, type=0)]
+        self.items_list3 = [Item(name="herramienta", x=1250,y=370,width=100,height=100,type=1),
+                           Item(name="llave", x=150,y=300,width=93,height=55,type=3),
+                           Item(name="tuercas", x=500,y=300,width=100,height=90,type=2),
+                           Item(name="combustible", x=4500,y=400,width=70,height=67,type=0),
+                           Item(name="herramienta", x=1250, y=300, width=100, height=100, type=1),
+                            Item(name="llave", x=150, y=300, width=93, height=55, type=3),
+                            Item(name="tuercas", x=500, y=300, width=100, height=90, type=2),
+                            Item(name="combustible", x=4500, y=400, width=70, height=67, type=0)]
         self.level_list = [] 
         self.level_1 = Level(self.player_1, self.plataform_list,
                              self.enemy_list, self.items_list , self.static_background, self.game, 0, self.enemy_list_level2,self.plataform_list_level2 )
         self.level_2 = Level(self.player_1, self.plataform_list_level2, self.enemy_list_level2, self.items_list2 ,
                              self.static_background_2, self.game, 1, self.enemy_list_level2,self.plataform_list_level2 )
-        self.level_3 = Level(self.player_1, self.plataform_list,
-                             self.enemy_list, self.items_list , self.static_background, self.game, 2, self.enemy_list_level2,self.plataform_list_level2)
+        self.level_3 = Level(self.player_1,  self.plataform_list_level3 ,
+                             self.enemy_list_level3, self.items_list3 , self.static_background_3, self.game, 2, self.enemy_list_level2,self.plataform_list_level2)
         
         self.level_list.append(self.level_1)
         self.level_list.append(self.level_2)
@@ -264,7 +487,7 @@ class FormGameLevel1(Form):
         self.game.score = self.player_1.score
         self.score = self.game.score
         self.pb_lives.value = self.player_1.lives
-        print("id en clase form {0}".format(id(self.player_1)))
+        
     def draw(self):
         super().draw()
         self.current_level.draw(self.surface)

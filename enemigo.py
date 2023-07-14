@@ -68,9 +68,9 @@ class Enemy():
         self.tiempo_last_jump = 0 # en base al tiempo transcurrido general
         self.interval_time_jump = interval_time_jump
         
-        self.shoot_delay=1500
+        self.shoot_delay=3500
         self.can_shoot = False
-        self.last_shoot_time=None
+        self.last_shoot_time= 0
         self.contador_daño=0
         self.damaged = False
         self.damaged_timer = 0

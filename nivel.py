@@ -77,6 +77,7 @@ class Level():
         for item in self.items_list:
             if self.player_1.rect.colliderect(item.rect):
                 self.player_1.increment_item(item.name)
+                self.player_1.score+=20
                 item.pickup()
                 self.items_list.remove(item)    
                         
@@ -87,7 +88,7 @@ class Level():
                 
                 self.enemy_list.remove(enemy_element)
                 self.player_1.score += 20
-            if enemy_element.can_shoot or enemy_element.is_shooter:
+            if enemy_element.can_shoot and enemy_element.is_shooter:
                 self.on_fire_shoot(enemy_element)
                 enemy_element.last_shoot_time = tiempo_actual
                      

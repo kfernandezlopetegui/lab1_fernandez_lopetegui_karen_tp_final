@@ -11,9 +11,9 @@ class FormMenuA(Form):
     def __init__(self,name,master_surface,x,y,w,h,color_background,color_border,active):
         super().__init__(name,master_surface,x,y,w,h,color_background,color_border,active)
 
-        self.boton1 = Button(master=self,x=150,y=90,w=200,h=40,color_background=None,color_border=None,image_background="images/gui/set_gui_01/Comic_Border/Buttons/Button_XL_08.png",on_click=self.on_click_boton3,on_click_param="form_game_L1",text="PLAY",font="Verdana",font_size=30,font_color=C_WHITE)
-        self.boton2 = Button(master=self,x=150,y=150,w=200,h=40,color_background=None,color_border=None,image_background="images/gui/set_gui_01/Comic_Border/Buttons/Button_XL_08.png",on_click=self.on_click_boton3,on_click_param="form_menu_settings",text="SETTINGS",font="Verdana",font_size=30,font_color=C_WHITE)
-        self.boton3 = Button(master=self,x=150,y=210,w=200,h=40,color_background=None,color_border=None,image_background="images/gui/set_gui_01/Comic_Border/Buttons/Button_XL_08.png",on_click=self.on_quit,on_click_param="form_menu_C",text="QUIT",font="Verdana",font_size=30,font_color=C_WHITE)
+        self.boton1 = Button(master=self,x=150,y=90,w=200,h=40,color_background=None,color_border=None,image_background="images/gui/set_gui_01/Comic_Border/Buttons/Button_XL_08.png",on_click=self.on_click_boton3,on_click_param="form_game_L1",text="PLAY",font="Verdana",font_size=30,font_color=C_BLACK)
+        self.boton2 = Button(master=self,x=150,y=150,w=200,h=40,color_background=None,color_border=None,image_background="images/gui/set_gui_01/Comic_Border/Buttons/Button_XL_08.png",on_click=self.on_click_boton3,on_click_param="form_menu_settings",text="SETTINGS",font="Verdana",font_size=30,font_color=C_BLACK)
+        self.boton3 = Button(master=self,x=150,y=210,w=200,h=40,color_background=None,color_border=None,image_background="images/gui/set_gui_01/Comic_Border/Buttons/Button_XL_08.png",on_click=self.on_quit,on_click_param="form_menu_C",text="QUIT",font="Verdana",font_size=30,font_color=C_BLACK)
                                 
        
         self.lista_widget = [self.boton1,self.boton2,self.boton3]
